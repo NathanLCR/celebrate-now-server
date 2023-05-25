@@ -7,6 +7,7 @@ export async function usuarioController(app: FastifyInstance) {
     try {
       const usuario: Usuario = UsuarioSchema.parse(request.body);
       const novoUsuario = await criarUsuario(usuario);
+      //todo: validacao de email
       return novoUsuario;
     } catch (error) {
       console.error('Erro ao criar usuário:', error);

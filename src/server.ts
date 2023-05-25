@@ -12,7 +12,7 @@ app.register(cors, {
 app.register(usuarioController)
 
 app.get('/', async () => {
-  return { message: 'Bem-vindo ao backend da aplicação celebrate now123!' }
+  return { message: 'Bem-vindo ao backend da aplicação celebrate now!123' }
 })
 
 const start = async () => {
