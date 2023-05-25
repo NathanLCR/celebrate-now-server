@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl","linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id     Int      @id @default(autoincrement())
+  nome   String
+  email  String   @unique
+  senha  String
+  Evento Evento[]
+}
+
+model Evento {
+  id        Int         @id @default(autoincrement())
+  nome      String
+  dataHora  DateTime
+  local     String
+  usuario   Usuario     @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+  // Outros campos do evento
+  Convidado Convidado[]
+  Tarefa    Tarefa[]
+  Despesa   Despesa[]
+  Presente  Presente[]
+}
+
+model Convidado {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  email    String
+  status   String
+  evento   Evento @relation(fields: [eventoId], references: [id])
+  eventoId Int
+  // Outros campos do convidado
+}
+
+model Tarefa {
+  id             Int      @id @default(autoincrement())
+  descricao      String
+  dataVencimento DateTime
+  status         String
+  evento         Evento   @relation(fields: [eventoId], references: [id])
+  eventoId       Int
+  // Outros campos da tarefa
+}
+
+model Despesa {
+  id        Int    @id @default(autoincrement())
+  descricao String
+  valor     Float
+  categoria String
+  evento    Evento @relation(fields: [eventoId], references: [id])
+  eventoId  Int
+  // Outros campos da despesa
+}
+
+model Presente {
+  id        Int    @id @default(autoincrement())
+  nome      String
+  descricao String
+  status    String
+  evento    Evento @relation(fields: [eventoId], references: [id])
+  eventoId  Int
+  // Outros campos do presente
+}
